@@ -20,13 +20,15 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 io.on('connection', (socket)=>{
-    console.log("user is connected!!!");
+    socket.on("signalingMessage", (message)=>{
+        socket.broadcast.emit("signalingMessage", message);
+    });
 })
 
 app.get('/', function(req, res){
     res.render('index');
 })
 
-app.listen(3000, function(req,res){
+server.listen(3000, function(req,res){
     console.log('listening on port 3000');
 })
